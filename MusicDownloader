@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import os
+import glob
+
+import urllib2
+
+choice = 'Y'
+while choice == 'Y':
+    try :
+        search = 'love story taylor' # Test Case
+        search = testVar = raw_input("Enter Song Name\n")
+
+        search = search.replace(' ','%20')
+        print('Making a Query Request! ')
+        response = urllib2.urlopen('https://www.youtube.com/results?search_query='+search)
+        html = response.read()
+        a =html.find('<h3 class="yt-lockup-title"><a href="/watch?')
+        raw_link= (html[a+43:a+57]) # May change when Youtube Website may get updated in the future.
+        proper_linl = 'https://www.youtube.com/watch'+raw_link
+
+        #youtube-dl --extract-audio --audio-format mp3
+        #command='youtube-dl -t --format bestaudio '+proper_linl
+        command = 'youtube-dl -t --format bestaudio '+proper_linl
+        print ('Processed Querying , Starting Phase 2')
+        os.system(command)
+        choice = raw_input('Want to download another song Y/N\n')
+    except:
+        print('Sorry, An error occurred, Please report this bug\n')
